@@ -8,6 +8,8 @@ const idArray = task.map((item) => item.id);
 
 console.log(idArray);
 
+
+//middleware que valide el ID
 function validateId(req, res, next) {
     
     const id = req.params.id;
