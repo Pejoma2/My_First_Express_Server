@@ -1,4 +1,4 @@
-# Descripción de Producto Mejorada
+
 
 **¿Qué es mi producto y para qué sirve?**
 
