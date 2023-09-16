@@ -3,11 +3,12 @@ const express = require('express');
 const router = express.Router();
 
 
+
 //middleware que maneje Solicitudes POST con el cuerpo vacio
 function validateTaskEmptyBody(req, res, next){
     const body = req.body;
-    const method = req.method;
-
+    //const method = req.method;
+    console.log(body);
     //if (method === "POST" && !body){ ---al poner el middleware en el router post, ya no es necesario chequear el metodo. Esto tambien me permite hacerlo en la solicitud PUT.
     if (!body){
         res.status(400).send("ERROR: empty BODY!");
@@ -21,6 +22,9 @@ function validateTaskData(req, res, next) {
     const {id, isCompleted, description} = req.body;
 
     if(!id || !isCompleted || !description){
+        console.log(id);
+        console.log(isCompleted);
+        console.log(description);
         res.status(404).send("ERROR: missing task attributes")
     }
 

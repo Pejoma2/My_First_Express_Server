@@ -1,22 +1,7 @@
-let task = [
-    {
-    "id":"123456",
-    "isCompleted":"false",
-    "description":"Walk the dog",
-    },
-
-    {
-        "id":"1234567",
-        "isCompleted":"true",
-        "description":"Go to the shop",
-        },
-
-]
-
-
-
 const express = require("express");
 const port = 3000;
+const task = require("./task");
+
 
 const listView = require("./list-view-router");
 const listEdit = require("./list-edit-router");
@@ -34,6 +19,8 @@ function validateHttpMethod(req, res, next){
 
 
 const app = express();
+
+app.use(express.json());
 
 app.use(validateHttpMethod);
 
