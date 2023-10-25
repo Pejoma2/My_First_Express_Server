@@ -6,7 +6,7 @@ const task = require("./task")
 
 const idArray = task.map((item) => item.id);
 
-console.log(idArray);
+//console.log(idArray);
 
 
 //middleware que valide el ID
