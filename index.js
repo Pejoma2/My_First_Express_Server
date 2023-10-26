@@ -21,6 +21,7 @@ function authMiddleware(req, res, next) {
   try {
     const tokenDecrypted = jwt.verify(token, LLAVE_SECRETA);
     req.data = tokenDecrypted;
+    //console.log(tokenDecrypted);
     next();
   } catch (error) {
     res.status(401).send("No estas autorizado, vuelve a hacer Login");
@@ -79,7 +80,7 @@ app.post("/login", (req, res) => {
     };
 
     const token = jwt.sign(payload, LLAVE_SECRETA);
-
+    console.log(payload);
     res.status(200).send({
       message: "Bienvenido",
       token,
