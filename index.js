@@ -95,6 +95,102 @@ app.get("/task", authMiddleware, (req, res) => {
   res.status(200).send(task);
 });
 
+// Creación API REST
+
+//1. Crear una nueva tarea => método POST
+app.post("/api/task", (req, res) => {
+  const description = req.body.description;
+
+  if (description.length >= 3) {
+    const id = task[task.length - 1].id + 1;
+    task.push({
+      id,
+      description,
+      isCompleted: false,
+    });
+
+    res.status(200).send({
+      message: "Tarea creada",
+      descripcion: description,
+      task,
+    });
+  } else {
+    res.status(400).send({
+      message:
+        "Error, la descripción no puede ser vacia o menor de 3 caracteres",
+    });
+  }
+});
+
+//2. Actualizar una tarea, cambiar su estado completada/noCompletada => método POST
+app.put("/api/task/:id", (req, res) => {
+  const id = req.params.id;
+  const index = task.findIndex((t) => t.id == id);
+  console.log(id);
+
+  if (index === -1) {
+    res.status(404).send({
+      message: "Tarea no encontrada",
+      id,
+    });
+  } else {
+    task[index].isCompleted = !task[index].isCompleted;
+    res.status(200).send({
+      message: "Tarea " + id + " actualizada con exito",
+      task,
+    });
+  }
+});
+
+//3. Eliminar una tarea => método DELETE
+app.delete("/api/task/:id", (req, res) => {
+  const id = req.params.id;
+  const index = task.findIndex((t) => t.id == id);
+
+  if (index === -1) {
+    res.status(404).send({
+      message: "Tarea no encontrada",
+      id,
+    });
+  } else {
+    task.splice(index, 1);
+    res.status(200).send({
+      message: "Tarea " + id + " eliminada con exito",
+      task,
+    });
+  }
+});
+
+//4. Listar todas las tareas => método GET
+app.get("/api/task", (req, res) => {
+  res.status(200).send(JSON.stringify(task));
+});
+
+//5.1 Listar las tareas completas => método GET
+app.get("/api/task/completed", (req, res) => {
+  res.status(200).send(JSON.stringify(task.filter((t) => t.isCompleted)));
+});
+
+//5.2 Listar las tareas incompletas => método GET
+app.get("/api/task/incompleted", (req, res) => {
+  res.status(200).send(JSON.stringify(task.filter((t) => !t.isCompleted)));
+});
+
+//6. Obtener una sola tarea => método GET
+app.get("/api/task/:id", (req, res) => {
+  const id = req.params.id;
+  const taskId = task.find((t) => t.id == id);
+
+  if (!taskId) {
+    res.status(404).send({
+      message: "Tarea no encontrada",
+      id,
+    });
+  } else {
+    res.status(200).send(JSON.stringify(taskId));
+  }
+});
+
 app.listen(port, () => {
   console.log("Server Running" + port);
 });
